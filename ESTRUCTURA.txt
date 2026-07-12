@@ -1,0 +1,170 @@
+"""
+PROYECTO MD - ESTRUCTURA FINAL
+===============================
+
+JOyal_3/
+│
+├── 📄 app.py                      ← PUNTO DE ENTRADA (ejecutar este archivo)
+├── 📄 app_original.py             ← Código original (respaldo)
+├── 📄 run.bat                     ← EJECUTABLE WINDOWS (doble click aquí!)
+│
+├── 📋 README.md                   ← Documentación completa del proyecto
+├── 📋 INICIO_RAPIDO.md            ← Guía rápida de inicio
+├── 📋 NOTAS_IMPLEMENTACION.md     ← Detalles técnicos y decisiones
+├── 📋 LICENSE                     ← Licencia MIT
+├── 📋 requirements.txt            ← Dependencias (numpy, customtkinter)
+├── 📋 .gitignore                  ← Archivos a ignorar en Git
+│
+├── 📁 logic/                      ← LÓGICA DE NEGOCIO (sin interfaz)
+│   ├── __init__.py               ← Inicialización del paquete
+│   ├── graph_logic.py            ← Grafos, árboles, Union-Find, DFS
+│   ├── crypto_logic.py           ← Cifrado Hill Cipher 9×9
+│   └── math_utils.py             ← Matrices, determinantes, inversa modular
+│
+└── 📁 gui/                        ← INTERFAZ GRÁFICA (CustomTkinter)
+    ├── __init__.py               ← Inicialización del paquete
+    ├── main_window.py            ← Ventana principal y menú
+    ├── tree_view.py              ← Vista: Árbol → Función (+ desencriptar)
+    ├── function_view.py          ← Vista: Función → Árbol (+ encriptar)
+    └── graph_canvas.py           ← Canvas para dibujar grafos
+
+
+CÓMO EJECUTAR
+=============
+
+Opción 1 (RECOMENDADA):
+  → Doble click en: run.bat
+  
+Opción 2 (Manual):
+  → Abrir terminal en esta carpeta
+  → Ejecutar: python app.py
+
+
+CARACTERÍSTICAS PRINCIPALES
+============================
+
+✅ Separación lógica/interfaz
+✅ Interfaz minimalista moderna (CustomTkinter)
+✅ Paleta de colores profesional (Catppuccin Mocha)
+✅ Canvas interactivo para grafos
+✅ Encriptación/Desencriptación Hill Cipher
+✅ Validación robusta de entrada
+✅ Instalador automático (run.bat)
+✅ Documentación completa
+✅ TODA la lógica original preservada
+
+
+MODOS DE USO
+============
+
+Modo 1: Construir Función desde Árbol
+  1. Conectar 9 vértices sin ciclos
+  2. Seleccionar vértice inicial
+  3. Seleccionar vértice final
+  4. Ver función generada
+  5. (Opcional) Desencriptar texto
+
+Modo 2: Construir Árbol desde Función
+  1. Ingresar función (ej: 1,2,3,6,6,6,7,8,9)
+  2. Ver bosque funcional
+  3. Convertir a árbol con vértebra
+  4. (Opcional) Encriptar texto
+
+
+DEPENDENCIAS
+============
+
+- Python 3.8+
+- numpy (operaciones matriciales)
+- customtkinter (interfaz moderna)
+
+
+ARQUITECTURA
+============
+
+┌─────────────┐
+│   app.py    │ ← Punto de entrada
+└──────┬──────┘
+       │
+       ├─────────────┬─────────────┐
+       │             │             │
+   ┌───▼───┐   ┌────▼─────┐  ┌───▼────┐
+   │ logic │   │   gui    │  │ Canvas │
+   └───┬───┘   └────┬─────┘  └───┬────┘
+       │            │            │
+  ┌────┴────┐  ┌────┴────┐  ┌───┴────┐
+  │ Grafos  │  │  Menu   │  │ Dibujo │
+  │ Crypto  │  │  Tree   │  │ Hover  │
+  │  Math   │  │Function │  │ Events │
+  └─────────┘  └─────────┘  └────────┘
+
+
+PALETA DE COLORES
+=================
+
+• Fondo:      #11111b (negro suave)
+• Superficie: #1e1e2e (gris oscuro)
+• Vértices:   #89b4fa (azul claro)
+• Vértebras:  #f38ba8 (rosa/rojo)
+• Dirigidas:  #cba6f7 (púrpura)
+• Texto:      #cdd6f4 (gris claro)
+• Acentos:    #a6e3a1 (verde menta)
+
+
+ALGORITMOS IMPLEMENTADOS
+=========================
+
+1. Union-Find (Disjoint Set)
+   - Detección de ciclos
+   - Path compression
+   - O(α(n)) amortizado
+
+2. Depth-First Search (DFS)
+   - Búsqueda de caminos
+   - Detección de ciclos en funciones
+   - O(V + E)
+
+3. Breadth-First Search (BFS)
+   - Cálculo de distancias
+   - Dirección de aristas
+   - O(V + E)
+
+4. Bareiss Algorithm
+   - Determinante entero
+   - Sin errores de redondeo
+   - O(n³)
+
+5. Hill Cipher 9×9
+   - Cifrado por bloques
+   - Alfabeto extendido (30 chars)
+   - Matriz invertible modular
+
+
+AUTORES
+=======
+
+Universidad Nacional de Colombia
+Facultad de Ingeniería, departamento de Ingeniería de Sistemas e Industrial
+Bogotá, Colombia
+
+Martin Lora Caro
+Cristian Andrés Díaz Ortega
+Jhon Edison Prieto Artunduaga
+
+
+LICENCIA
+========
+
+MIT License - Ver archivo LICENSE
+
+
+SOPORTE
+=======
+
+Ver README.md para documentación completa
+Ver INICIO_RAPIDO.md para guía rápida
+Ver NOTAS_IMPLEMENTACION.md para detalles técnicos
+
+
+¡Disfruta explorando la Fórmula de Cayley! 🌳🔢
+"""
