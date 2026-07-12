@@ -9,6 +9,11 @@ from gui.graph_canvas import GraphCanvas
 from logic import GraphLogic, CryptoEngine
 
 
+def generate_random_function(n):
+    """Genera una función aleatoria de tamaño n con valores entre 1 y n."""
+    return [random.randint(1, n) for _ in range(n)]
+
+
 class FunctionView(ctk.CTkFrame):
     """Vista para construir árbol a partir de función."""
     
@@ -27,6 +32,7 @@ class FunctionView(ctk.CTkFrame):
         self.camino_inv = None
         self.aristas_vert = []
         self.aristas_dir = []
+        self.aristas_tree = []
         self.estado = 0  # 0: ingresar, 1: mostrar bosque, 2: mostrar árbol
         
         self._setup_ui()
@@ -117,6 +123,19 @@ class FunctionView(ctk.CTkFrame):
             command=self._construir_bosque
         )
         self.btn_construir.pack(padx=20, pady=3, fill="x")
+
+        self.btn_simple = ctk.CTkButton(
+            right,
+            text="Convertir a Árbol Simple",
+            fg_color="#94a1b2",
+            hover_color="#cdd6f4",
+            text_color="#1e1e2e",
+            font=("Segoe UI", 13, "bold"),
+            height=40,
+            state="disabled",
+            command=self._convertir_arbol_simple
+        )
+        self.btn_simple.pack(padx=20, pady=3, fill="x")
         
         # Mensaje de error
         self.lbl_error = ctk.CTkLabel(
@@ -203,11 +222,21 @@ class FunctionView(ctk.CTkFrame):
             self.camino_inv = result['camino_inv']
             self.aristas_vert = result['aristas_vert']
             self.aristas_dir = result['aristas_dir']
+            self.aristas_tree = self.aristas_vert + self.aristas_dir
             
             self.estado = 1  # Mostrar bosque
             
             self.lbl_error.configure(text="")
-            self.btn_construir.configure(text="Convertir a Árbol", command=self._convertir_arbol)
+            self.btn_construir.configure(
+                text="Convertir a Árbol con Vértice",
+                command=self._convertir_arbol,
+                state="normal"
+            )
+            self.btn_simple.configure(
+                text="Convertir a Árbol Simple",
+                command=self._convertir_arbol_simple,
+                state="disabled"
+            )
             
             self._update_display()
             
@@ -217,6 +246,14 @@ class FunctionView(ctk.CTkFrame):
     def _convertir_arbol(self):
         """Convierte el bosque en árbol."""
         self.estado = 2
+        self.btn_simple.configure(state="normal")
+        self.btn_construir.configure(state="disabled")
+        self._update_display()
+
+    def _convertir_arbol_simple(self):
+        """Convierte el árbol con vértice en una vista simple sin flechas."""
+        self.estado = 3
+        self.btn_simple.configure(state="disabled")
         self.btn_construir.configure(state="disabled")
         self._update_display()
     
@@ -241,6 +278,15 @@ class FunctionView(ctk.CTkFrame):
                 None,
                 self.aristas_vert,
                 self.aristas_dir,
+                None
+            )
+
+        elif self.estado == 3:
+            # Mostrar árbol simple con la misma estructura, sin flechas ni vértebras
+            self.canvas.draw_graph_tree(
+                self.aristas_tree,
+                None,
+                None,
                 None
             )
         
@@ -383,7 +429,7 @@ class FunctionView(ctk.CTkFrame):
     def _generar_funcion_aleatoria(self):
         """Genera una función aleatoria con n valores."""
         # Generar función aleatoria (cada valor puede ser de 1 a n)
-        funcion_aleatoria = [random.randint(1, self.n) for _ in range(self.n)]
+        funcion_aleatoria = generate_random_function(self.n)
         
         # Colocar en el entry
         self.entry_funcion.delete(0, "end")
@@ -403,6 +449,7 @@ class FunctionView(ctk.CTkFrame):
         self.camino_inv = None
         self.aristas_vert = []
         self.aristas_dir = []
+        self.aristas_tree = []
         self.estado = 0
         
         self.entry_funcion.delete(0, "end")
@@ -412,6 +459,11 @@ class FunctionView(ctk.CTkFrame):
             text="Construir Bosque",
             command=self._construir_bosque,
             state="normal"
+        )
+        self.btn_simple.configure(
+            text="Convertir a Árbol Simple",
+            command=self._convertir_arbol_simple,
+            state="disabled"
         )
         
         self._update_display()

@@ -5,6 +5,7 @@ Permite usar funciones para cifrar/descifrar textos sin construir árboles.
 
 import customtkinter as ctk
 from logic import CryptoEngine
+from gui.function_view import generate_random_function
 
 
 class CryptoView(ctk.CTkFrame):
@@ -17,6 +18,7 @@ class CryptoView(ctk.CTkFrame):
         self.crypto_engine = CryptoEngine(n)
         self.on_back = on_back
         self.funcion = [None] * n
+        self.result_text = ""
         
         self._setup_ui()
     
@@ -103,6 +105,18 @@ class CryptoView(ctk.CTkFrame):
             command=self._set_function
         )
         btn_set_func.pack(padx=15, pady=(0, 15))
+
+        btn_random = ctk.CTkButton(
+            func_frame,
+            text="🎲 Generar Función Aleatoria",
+            fg_color="#89b4fa",
+            hover_color="#b4befe",
+            text_color="#1e1e2e",
+            font=("Segoe UI", 13, "bold"),
+            height=40,
+            command=self._generar_funcion_aleatoria
+        )
+        btn_random.pack(padx=15, pady=(0, 15), fill="x")
         
         self.lbl_func_status = ctk.CTkLabel(
             func_frame,
@@ -196,6 +210,18 @@ class CryptoView(ctk.CTkFrame):
             anchor="w"
         )
         self.lbl_resultado.pack(pady=(0, 15), padx=15, fill="x")
+
+        btn_copy = ctk.CTkButton(
+            result_frame,
+            text="Copiar Resultado",
+            fg_color="#f9e2af",
+            hover_color="#f5c2e7",
+            text_color="#1e1e2e",
+            font=("Segoe UI", 13, "bold"),
+            height=40,
+            command=self._copy_result
+        )
+        btn_copy.pack(padx=15, pady=(0, 15), fill="x")
     
     def _set_function(self):
         """Establece la función como clave de cifrado."""
@@ -244,6 +270,7 @@ class CryptoView(ctk.CTkFrame):
     
     def _encrypt(self):
         """Encripta el texto."""
+        self.result_text = ""
         if None in self.funcion:
             self.lbl_resultado.configure(
                 text="⚠ Primero debe establecer una función como clave",
@@ -262,6 +289,7 @@ class CryptoView(ctk.CTkFrame):
         
         try:
             resultado = self.crypto_engine.encrypt(texto)
+            self.result_text = resultado
             self.lbl_resultado.configure(
                 text=f"✓ Texto encriptado:\n\n{resultado}",
                 text_color="#a6e3a1"
@@ -274,6 +302,7 @@ class CryptoView(ctk.CTkFrame):
     
     def _decrypt(self):
         """Desencripta el texto."""
+        self.result_text = ""
         if None in self.funcion:
             self.lbl_resultado.configure(
                 text="⚠ Primero debe establecer una función como clave",
@@ -292,6 +321,7 @@ class CryptoView(ctk.CTkFrame):
         
         try:
             resultado = self.crypto_engine.decrypt(texto)
+            self.result_text = resultado
             self.lbl_resultado.configure(
                 text=f"✓ Texto desencriptado:\n\n{resultado}",
                 text_color="#a6e3a1"
@@ -305,9 +335,34 @@ class CryptoView(ctk.CTkFrame):
     def _clear(self):
         """Limpia los campos."""
         self.entry_text.delete("1.0", "end")
+        self.result_text = ""
         self.lbl_resultado.configure(
             text="El resultado aparecerá aquí",
             text_color="#a6adc8"
+        )
+
+    def _generar_funcion_aleatoria(self):
+        """Genera una función aleatoria y la establece como clave."""
+        funcion_aleatoria = generate_random_function(self.n)
+        self.entry_funcion.delete(0, "end")
+        self.entry_funcion.insert(0, ",".join(map(str, funcion_aleatoria)))
+        self._set_function()
+
+    def _copy_result(self):
+        """Copia el resultado actual al portapapeles."""
+        if not self.result_text:
+            self.lbl_resultado.configure(
+                text="⚠ No hay un resultado para copiar",
+                text_color="#f38ba8"
+            )
+            return
+
+        self.clipboard_clear()
+        self.clipboard_append(self.result_text)
+        self.update_idletasks()
+        self.lbl_resultado.configure(
+            text="✓ Resultado copiado al portapapeles",
+            text_color="#a6e3a1"
         )
     
     def _on_back_clicked(self):

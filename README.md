@@ -42,7 +42,7 @@ La demostración utiliza el concepto de **vértebra**: un camino simple desde un
 2. **Construcción de Árbol desde Función**
    - Ingreso de función como lista de n valores
    - Visualización del bosque funcional (con ciclos)
-   - Conversión automática a árbol con vértebra
+   - Conversión automática a árbol con vértice o como árbol simple
    - Identificación de vértices en ciclos
    - **Encriptación** de textos usando la función generada
 
@@ -51,6 +51,8 @@ La demostración utiliza el concepto de **vértebra**: un camino simple desde un
    - Alfabeto extendido: A-Z, Ñ, espacio, coma, punto (30 caracteres)
    - Cifrado por bloques de 9 caracteres
    - Encriptación y desencriptación robusta
+   - Generación aleatoria de funciones para usar como clave
+   - Copia directa del resultado al portapapeles
 
 ### Interfaz Gráfica
 
@@ -173,12 +175,17 @@ customtkinter>=5.0.0   # Interfaz gráfica moderna
    - Click en "Construir Bosque"
    - Se visualizará el grafo funcional con posibles ciclos y bucles
 
-3. **Convertir a Árbol**:
-   - Click en "Convertir a Árbol"
+3. **Convertir a Árbol con Vértice**:
+   - Click en "Convertir a Árbol con Vértice"
    - Los ciclos se convierten en vértebra
    - Se muestran aristas dirigidas hacia la vértebra
 
-4. **Encriptar Texto** (Opcional):
+4. **Convertir a Árbol Simple**:
+   - Click en "Convertir a Árbol Simple"
+   - Se conserva la misma estructura del árbol
+   - Las aristas se muestran como líneas grises sin flechas
+
+5. **Encriptar Texto** (Opcional):
    - Click en "Activar Encriptación"
    - Ingrese el texto plano
    - Click en "Encriptar"
@@ -332,7 +339,7 @@ Si la matriz no es invertible módulo 30, se utiliza una matriz diagonal ajustad
 Facultad de Ingeniería, departamento de Ingeniería de Sistemas e Industrial  
 Bogotá, Colombia
 
-Curso: Matemáticas Discretas I 
+Curso: Matemáticas Discretas II 
 Proyecto: Demostración de Joyal a la Fórmula de Cayley
 
 ### Equipo de Desarrollo
@@ -340,6 +347,7 @@ Proyecto: Demostración de Joyal a la Fórmula de Cayley
 - Martin Lora Caro
 - Cristian Andrés Diaz Ortega
 - Jhon Edison Prieto Artunduaga
+- Johan Alexander Peña Ortiz
 
 ## Referencias
 
@@ -366,7 +374,7 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 ```
 MIT License
 
-Copyright (c) 2024 Universidad Nacional de Colombia
+Copyright (c) 2026 Universidad Nacional de Colombia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -401,7 +409,7 @@ Si encuentra algún error o desea contribuir al proyecto:
 
 ---
 
-**Nota**: Este proyecto es con fines educativos como parte del curso de Matemáticas Discretas I. El sistema de criptografía implementado es una demostración académica y no debe utilizarse para propósitos de seguridad real en producción.
+**Nota**: Este proyecto es con fines educativos como parte del curso de Matemáticas Discretas II. El sistema de criptografía implementado es una demostración académica y no debe utilizarse para propósitos de seguridad real en producción.
 
 ---
 

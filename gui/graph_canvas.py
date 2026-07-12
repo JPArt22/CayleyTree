@@ -164,45 +164,51 @@ class GraphCanvas(Canvas):
         Dibuja un bucle (self-loop) en un vértice.
         """
         x, y = self.vertice_pos[vertex]
-        
-        # Crear un arco elíptico arriba del vértice
-        offset_x = 6
-        offset_y = -self.vertice_rad + 2
-        center_x = x + offset_x
-        center_y = y + offset_y
-        
-        rx = 22
-        ry = 16
-        
-        # Dibujar arco
-        bbox = [
-            center_x - rx, center_y - ry,
-            center_x + rx, center_y + ry
-        ]
-        
-        self.create_arc(
-            bbox,
-            start=20,
-            extent=320,
-            outline=self.COLOR_LOOP,
-            width=3,
-            style=tk.ARC,
-            tags="loop"
-        )
-        
-        # Flecha en el extremo
-        angle = math.radians(200)
-        tip_x = center_x + rx * math.cos(angle)
-        tip_y = center_y + ry * math.sin(angle)
-        
-        # Triángulo de flecha
-        arrow_size = 8
-        self.create_polygon(
-            tip_x, tip_y,
-            tip_x - arrow_size, tip_y - arrow_size * 0.5,
-            tip_x - arrow_size * 0.7, tip_y + arrow_size * 0.3,
+        center_x = self.width / 2
+        center_y = self.height / 2 + 30
+
+        outward_x = x - center_x
+        outward_y = y - center_y
+        outward_len = math.hypot(outward_x, outward_y) or 1.0
+        outward_x /= outward_len
+        outward_y /= outward_len
+
+        tangent_x = -outward_y
+        tangent_y = outward_x
+
+        # Modelo geométrico: una elipse rotada que rodea al nodo por fuera.
+        # Esto evita el aspecto de "garabato" y se integra con la convención
+        # visual usada por software de grafos profesional.
+        loop_center_x = x + outward_x * (self.vertice_rad * 1.55)
+        loop_center_y = y + outward_y * (self.vertice_rad * 1.55)
+        loop_center_x += tangent_x * (self.vertice_rad * 0.18)
+        loop_center_y += tangent_y * (self.vertice_rad * 0.18)
+
+        radius_outward = max(28, self.vertice_rad * 1.55)
+        radius_tangent = max(20, self.vertice_rad * 1.0)
+
+        theta_start = math.radians(210)
+        theta_end = math.radians(500)
+        samples = 18
+
+        points = []
+        for index in range(samples):
+            t = index / (samples - 1)
+            theta = theta_start + (theta_end - theta_start) * t
+            px = loop_center_x + outward_x * (radius_outward * math.cos(theta)) + tangent_x * (radius_tangent * math.sin(theta))
+            py = loop_center_y + outward_y * (radius_outward * math.cos(theta)) + tangent_y * (radius_tangent * math.sin(theta))
+            points.extend([px, py])
+
+        self.create_line(
+            *points,
+            smooth=True,
+            splinesteps=48,
             fill=self.COLOR_LOOP,
-            outline=self.COLOR_LOOP,
+            width=3,
+            capstyle=tk.ROUND,
+            joinstyle=tk.ROUND,
+            arrow=tk.LAST,
+            arrowshape=(12, 15, 6),
             tags="loop"
         )
     
