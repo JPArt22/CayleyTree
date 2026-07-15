@@ -10,12 +10,12 @@ from logic import GraphLogic, CryptoEngine
 
 
 def generate_random_function(n):
-    """Genera una función aleatoria de tamaño n con valores entre 1 y n."""
+    """Función random"""
     return [random.randint(1, n) for _ in range(n)]
 
 
 class FunctionView(ctk.CTkFrame):
-    """Vista para construir árbol a partir de función."""
+    """Función a árbol"""
     
     def __init__(self, parent, n=9, on_back=None):
         super().__init__(parent, fg_color="#11111b")
@@ -24,8 +24,6 @@ class FunctionView(ctk.CTkFrame):
         self.graph_logic = GraphLogic(n)
         self.crypto_engine = CryptoEngine(n)
         self.on_back = on_back
-        
-        # Estado
         self.funcion = [None] * n
         self.camino_vertebra = None
         self.camino_orden = None
@@ -38,106 +36,48 @@ class FunctionView(ctk.CTkFrame):
         self._setup_ui()
     
     def _setup_ui(self):
-        """Configura la interfaz de usuario."""
-        # Header
+        """Interfaz de usuario"""
+
         header = ctk.CTkFrame(self, fg_color="#1e1e2e", height=60)
         header.pack(fill="x", padx=20, pady=(20, 10))
         
-        btn_back = ctk.CTkButton(
-            header,
-            text="← Volver",
-            width=100,
-            height=35,
-            fg_color="#313244",
-            hover_color="#45475a",
-            font=("Segoe UI", 13),
-            command=self._on_back_clicked
-        )
+        btn_back = ctk.CTkButton(header, text="← Volver", width=100, height=35, fg_color="#313244", hover_color="#45475a", font=("Segoe UI", 13), command=self._on_back_clicked)
         btn_back.pack(side="left", padx=10, pady=10)
         
-        title = ctk.CTkLabel(
-            header,
-            text=f"Construir Árbol desde Función (n={self.n})",
-            font=("Segoe UI", 22, "bold"),
-            text_color="#cdd6f4"
-        )
+        title = ctk.CTkLabel(header, text=f"Construir Árbol desde Función (n={self.n})", font=("Segoe UI", 22, "bold"), text_color="#cdd6f4")
         title.pack(side="left", padx=20)
         
-        # Contenedor principal
         main = ctk.CTkFrame(self, fg_color="transparent")
         main.pack(fill="both", expand=True, padx=20, pady=10)
         
-        # Panel izquierdo - Canvas
         left = ctk.CTkFrame(main, fg_color="#1e1e2e")
         left.pack(side="left", fill="both", expand=True, padx=(0, 10))
         
         self.canvas = GraphCanvas(left, width=700, height=600, n=self.n)
         self.canvas.pack(padx=20, pady=(30, 10))
         
-        # Instrucciones debajo del canvas
         instr_frame = ctk.CTkFrame(left, fg_color="#313244")
         instr_frame.pack(padx=20, pady=(0, 20), fill="x")
         
-        lbl_instr = ctk.CTkLabel(
-            instr_frame,
-            text=f"Ingrese f(1), f(2), ... f({self.n}) separados por comas. Ejemplo: {','.join(map(str, range(1, min(self.n+1, 10))))}",
-            font=("Segoe UI", 11),
-            text_color="#a6adc8",
-            justify="center",
-            wraplength=700
-        )
+        lbl_instr = ctk.CTkLabel(instr_frame, text=f"Ingrese f(1), f(2), ... f({self.n}) separados por comas. Ejemplo: {','.join(map(str, range(1, min(self.n+1, 10))))}", font=("Segoe UI", 11), text_color="#a6adc8", justify="center", wraplength=700)
         lbl_instr.pack(pady=10, padx=15)
         
-        # Panel derecho - Controles
         right = ctk.CTkFrame(main, fg_color="#1e1e2e", width=380)
         right.pack(side="right", fill="y")
         right.pack_propagate(False)
         
-        # Título
-        lbl_title = ctk.CTkLabel(
-            right,
-            text="Ingreso de Función",
-            font=("Segoe UI", 18, "bold"),
-            text_color="#cdd6f4"
-        )
+        lbl_title = ctk.CTkLabel(right, text="Ingreso de Función", font=("Segoe UI", 18, "bold"), text_color="#cdd6f4")
         lbl_title.pack(pady=(10, 5))
         
-        # Entry para función
-        self.entry_funcion = ctk.CTkEntry(
-            right,
-            placeholder_text="1,2,3,4,5,6,7,8,9",
-            height=40,
-            font=("Segoe UI", 13)
-        )
+        self.entry_funcion = ctk.CTkEntry(right, placeholder_text="1,2,3,4,5,6,7,8,9", height=40, font=("Segoe UI", 13))
         self.entry_funcion.pack(padx=20, pady=5, fill="x")
         
-        # Botón construir
-        self.btn_construir = ctk.CTkButton(
-            right,
-            text="Construir Bosque",
-            fg_color="#89b4fa",
-            hover_color="#b4befe",
-            text_color="#1e1e2e",
-            font=("Segoe UI", 14, "bold"),
-            height=40,
-            command=self._construir_bosque
-        )
+        self.btn_construir = ctk.CTkButton(right, text="Construir Bosque", fg_color="#89b4fa", hover_color="#b4befe", text_color="#1e1e2e", font=("Segoe UI", 14, "bold"), height=40, command=self._construir_bosque)
         self.btn_construir.pack(padx=20, pady=3, fill="x")
 
-        self.btn_simple = ctk.CTkButton(
-            right,
-            text="Convertir a Árbol Simple",
-            fg_color="#94a1b2",
-            hover_color="#cdd6f4",
-            text_color="#1e1e2e",
-            font=("Segoe UI", 13, "bold"),
-            height=40,
-            state="disabled",
-            command=self._convertir_arbol_simple
-        )
+        self.btn_simple = ctk.CTkButton(right, text="Convertir a Árbol Simple", fg_color="#94a1b2", hover_color="#cdd6f4", text_color="#1e1e2e", font=("Segoe UI", 13, "bold"), height=40, state="disabled", command=self._convertir_arbol_simple)
         self.btn_simple.pack(padx=20, pady=3, fill="x")
         
-        # Mensaje de error
         self.lbl_error = ctk.CTkLabel(
             right,
             text="",

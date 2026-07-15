@@ -82,7 +82,7 @@ class MainWindow(ctk.CTk):
         
         title = ctk.CTkLabel(
             title_frame,
-            text="Proyecto MD I",
+            text="Proyecto MD II",
             font=("Segoe UI", 48, "bold"),
             text_color="#cdd6f4"
         )
