@@ -89,7 +89,7 @@ La aplicación utiliza una paleta de colores cuidadosamente seleccionada:
 1. **Descargue o clone el repositorio**:
    ```bash
    git clone <repository-url>
-   cd JOyal_3
+   cd CayleyTree
    ```
 
 2. **Ejecute el archivo `run.bat`**:
@@ -105,7 +105,7 @@ La aplicación utiliza una paleta de colores cuidadosamente seleccionada:
 1. **Clone el repositorio**:
    ```bash
    git clone <repository-url>
-   cd JOyal_3
+   cd CayleyTree
    ```
 
 2. **Cree un entorno virtual**:
@@ -195,7 +195,7 @@ customtkinter>=5.0.0   # Interfaz gráfica moderna
 ### Estructura de Directorios
 
 ```
-JOyal_3/
+CayleyTree/
 │
 ├── app.py                    # Punto de entrada principal
 ├── run.bat                   # Script de instalación y ejecución
